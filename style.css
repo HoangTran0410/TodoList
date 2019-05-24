@@ -16,6 +16,14 @@ body {
     text-align: center;
 }
 
+.header > h2 {
+    margin: 0px auto;
+}
+
+.header > p {
+    margin: 10px auto 30px;
+}
+
 /* Clear floats after the header */
 .header:after {
     content: "";
@@ -147,4 +155,15 @@ input {
 
 .addBtn:hover {
     background-color: #bbb;
+}
+
+@media only screen and (max-width: 600px) {
+    .close {
+        padding: 12px 10px;
+    }
+
+    .edit {
+        right: 30px;
+        padding: 10px 8px;
+    }   
 }
