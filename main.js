@@ -31,23 +31,36 @@ window.onload = function() {
     // Add a "checked" symbol when clicking on a list item
     var ulList = document.querySelector('ul');
     ulList.addEventListener('click', function(ev) {
-        if (ev.target.tagName === 'LI') {
-            ev.target.classList.toggle('checked');
-
-            var div = ev.target;
-            var t = div.textContent;
-            var t = t.substring(0, t.length - 1); // remove x symbol
-            var checkStage = (ev.target.classList == 'checked');
+        var target = ev.target;
+        // click Li
+        if (target.tagName === 'LI') {
+            var t = target.textContent;
+            var t = t.substring(0, t.length - 2); // remove x symbol
+            var checkStage = (target.classList != 'checked');
             checkedTodo(t, checkStage);
 
-        } else if (ev.target.tagName === 'SPAN' && ev.target.classList == 'close') {
-            var div = ev.target.parentElement;
-            div.style.display = "none";
+        // Click Close button
+        } else if (target.tagName === 'SPAN' && target.classList == 'close') {
+            var div = target.parentElement;
 
             var t = div.textContent; 
-            t = t.substring(0, t.length - 1); // remove x symbol
+            t = t.substring(0, t.length - 2); // remove x symbol
             removeTodo(t);
+
+        // Click Edit button
+        } else if(target.tagName === 'SPAN' && target.classList == 'edit') {
+            var div = target.parentElement;
+
+            var t = div.textContent; 
+            t = t.substring(0, t.length - 2); // remove x symbol
+            removeTodo(t);
+
+            var input = document.getElementById('myInput');
+            input.value = t;
+            input.focus();
         }
+
+        refreshTodoList();
     }, false);
 
     refreshTodoList();
@@ -70,12 +83,18 @@ function createNewTodo(todo) {
 
     if (todo.checked) li.classList = 'checked';
 
+    var spanEdit = document.createElement('SPAN');
+    var txt1 = document.createTextNode('\u270E');
+    spanEdit.className = 'edit';
+    spanEdit.appendChild(txt1);
+    li.appendChild(spanEdit);
+
     // Create a "close" button and append it to each list item
-    var span = document.createElement("SPAN");
+    var spanDelete = document.createElement("SPAN");
     var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    li.appendChild(span);
+    spanDelete.className = "close";
+    spanDelete.appendChild(txt);
+    li.appendChild(spanDelete);
 
     document.getElementById("myUL").appendChild(li);
 }
